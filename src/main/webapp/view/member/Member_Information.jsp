@@ -37,6 +37,13 @@
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
     <style>
+/* 會員名稱調整 */
+  #memName {
+    line-height: 2.3;  /* 调整为所需的值 */
+    text-shadow: 2px 2px 2px rgba(0,0,0,0.3);
+    color: white;
+    margin-left: 12px;
+}
         .main-container {
             width: 95%;
             height: 85%;

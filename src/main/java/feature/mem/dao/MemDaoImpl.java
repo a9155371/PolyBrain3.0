@@ -236,14 +236,14 @@ public class MemDaoImpl implements MemDao {
 
 
     String driver = "com.mysql.cj.jdbc.Driver";
-    String url = "jdbc:mysql://localhost:3306/polybrain?serverTimezone=Asia/Taipei";
+    String url = "jdbc:mysql://localhost:3306/polybrain_new?serverTimezone=Asia/Taipei";
     String userid = "root";
     String passwd = "asd347asd";
     private static DataSource ds = null;
     static {
         try {
             Context ctx = new InitialContext();
-            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/polybrain");
+            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/polybrain_new");
         } catch (NamingException e) {
             e.printStackTrace();
         }
