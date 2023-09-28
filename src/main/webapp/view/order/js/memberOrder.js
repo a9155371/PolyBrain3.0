@@ -77,9 +77,6 @@ function buildTable() {
                 data: "tranTime",
             },
             {
-                data: "orderState",
-            },
-            {
                 data: "receiverName",
             },
             {
@@ -87,6 +84,13 @@ function buildTable() {
             },
             {
                 data: "receiverPhone",
+            },
+            {
+                data: "receiverMethod",
+                render: function (data, type, row) {
+                    // 根据receiverMethod的值返回相应的文本
+                    return data === 0 ? "郵寄" : "宅配";
+                }
             },
             {
                 data: "orderTotal",
@@ -112,10 +116,25 @@ function buildTable() {
     });
 
     $(document).on('click', '.orderDetailBtn', function () {
+        // 獲取所點擊的按鈕所在的行
+        const row = table.row($(this).closest('tr'));
+
+        // 從該行的資料中獲取orderNo的值
+        const orderNo = row.data().orderNo;
+
+        // 現在你可以使用orderNo進行後續處理
+        console.log('點擊的按鈕對應的orderNo為:', orderNo);
+        // 在這裡可以執行你想要的操作，例如顯示該訂單的詳細資訊等等
+
+
         fetch("/PolyBrain/loginRequired/findAllOrderDetail", {
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json"
-            }
+                'content-type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                orderNo: orderNo ,
+            })
         })
             .then(response => response.json())
             .then(data => {

@@ -19,7 +19,7 @@ public class ItemDAOimplPeter implements CoreDao {
     static {
         try {
             Context ctx = new InitialContext();
-            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/project_3");
+            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/polybrain");
         } catch (NamingException e) {
             e.printStackTrace();
         }

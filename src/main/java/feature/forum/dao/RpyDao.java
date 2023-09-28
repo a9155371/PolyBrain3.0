@@ -19,7 +19,7 @@ public class RpyDao implements RpyDaoImpl {
     static {
         try {
             Context ctx =new InitialContext();
-            ds =(DataSource) ctx.lookup("java:comp/env/jdbc/TestDB3");
+            ds =(DataSource) ctx.lookup("java:comp/env/jdbc/polybrain");
 
         }catch (NamingException e){
             e.printStackTrace();

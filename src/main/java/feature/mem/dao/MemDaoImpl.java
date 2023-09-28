@@ -238,7 +238,7 @@ public class MemDaoImpl implements MemDao {
     String driver = "com.mysql.cj.jdbc.Driver";
     String url = "jdbc:mysql://localhost:3306/polybrain_new?serverTimezone=Asia/Taipei";
     String userid = "root";
-    String passwd = "asd347asd";
+    String passwd = "06494784";
     private static DataSource ds = null;
     static {
         try {

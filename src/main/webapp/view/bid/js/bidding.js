@@ -204,7 +204,7 @@ function buyWithoutBidding(){
     .then(data => {
         console.log(data);
         sessionStorage.setItem("bidOrderVo", JSON.stringify(data));
-        window.location.href = 'http://localhost:8080/PolyBrain/view/test/test.html';
+        window.location.href = 'http://localhost:8080/PolyBrain/view/order/bidOrderConfirm.html';
     })
     .catch(error => {
         console.log("error", error);

@@ -21,9 +21,9 @@ public class MemberOrderDetail extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
+        Integer orderNo = Integer.valueOf(req.getParameter("orderNo"));
         req.setCharacterEncoding("UTF-8");
-        List<OrderDetailDTO> itemOrderDetailVOList = new OrderService().selectOrderDetail(2);
+        List<OrderDetailDTO> itemOrderDetailVOList = new OrderService().selectOrderDetail(orderNo);
         System.out.println(itemOrderDetailVOList);
         commonUtil.writePojo2Json(res, itemOrderDetailVOList);
 

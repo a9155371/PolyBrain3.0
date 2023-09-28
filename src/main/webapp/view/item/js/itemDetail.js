@@ -44,6 +44,9 @@ function getItemDetail(itemNo) {
                                         <i class="bi-cart-fill me-1"></i>
                                         加入購物車
                                     </button>
+                                    <button onclick="getItem(${data.itemNo})" class="btn btn-outline-dark flex-shrink-0" type="button" style="margin-left: 15px;">
+                                    收藏
+                                </button>
                         </div>
                     </div >
                 </div >
@@ -157,49 +160,85 @@ function addCart(itemNo) {
         });
 }
 
-//加入收藏
-function addTrace(itemNo) {
-    memNo = "1";
-    quantity = $("#inputQuantity").val();
-
-    const cartItem = {
-        memNo: parseInt(memNo),
-        itemNo: parseInt(itemNo),
-        quantity: parseInt(quantity)
-    };
-
-
-    fetch("http://localhost:8080/PolyBrain/CartInsert", {
-        method: 'POST',
+// 獲取需收藏的商品資訊
+function getItem(itemNo) {
+    console.log("收藏前收集資料");
+    console.log(itemNo);
+    Trace = {};
+    // 發送請求獲取商品數據
+    fetch("http://localhost:8080/PolyBrain/general/selectServlet?value=selectID&itemID=" + itemNo, {
+        method: 'GET',
         headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-        body: JSON.stringify(cartItem)
     })
         .then(response => response.json()) // 解析JSON響應
         .then(data => {
-
+            Trace.itemNo = data.itemNo;
+            Trace.itemImg = data.itemImg[0].itemImg;
+            Trace.itemName = data.itemName;
+            Trace.itemPrice = data.itemPrice;
+            console.log(Trace);
+            addTrace(Trace)
         })
         .catch(error => {
             // 處理錯誤
             console.error('獲取數據時出現問題:', error);
         });
-
-
-    // 检查当前按钮文本是否为 "收藏"
-    const addButton = document.getElementById("addTrace");
-    if (addButton.textContent === "收藏") {
-        // 如果是 "收藏"，则执行添加收藏的逻辑
-        // 在这里添加处理收藏的代码
-
-        // 更改按钮文本为 "取消收藏"
-        addButton.textContent = "取消收藏";
-    } else {
-        // 如果按钮文本是 "取消收藏"，则执行取消收藏的逻辑
-        // 在这里添加处理取消收藏的代码
-
-        // 更改按钮文本为 "收藏"
-        addButton.textContent = "收藏";
-    }
-
+}
+// 獲取需收藏的商品資訊
+function getItem(itemNo) {
+    console.log("收藏前收集資料");
+    console.log(itemNo);
+    Trace = {};
+    // 發送請求獲取商品數據
+    fetch("http://localhost:8080/PolyBrain/general/selectServlet?value=selectID&itemID=" + itemNo, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+    })
+        .then(response => response.json()) // 解析JSON響應
+        .then(data => {
+            Trace.itemNo = data.itemNo;
+            Trace.itemImg = data.itemImg[0].itemImg;
+            Trace.itemName = data.itemName;
+            Trace.itemPrice = data.itemPrice;
+            console.log(Trace);
+            addTrace(Trace)
+        })
+        .catch(error => {
+            // 處理錯誤
+            console.error('獲取數據時出現問題:', error);
+        });
+}
+//收到商品數據丟入資料庫收藏
+function addTrace(Trace) {
+    console.log("開始將資料加入收藏");
+    console.log(Trace);
+    // 發送請求獲取商品數據
+    fetch("http://localhost:8080/PolyBrain/loginRequired/Trace", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        body: JSON.stringify(Trace),
+    })
+        .then(resp => {
+            console.log(resp.status);
+            if (resp.status == 401) {
+                alert('帳號未登入，跳轉至登入頁面');
+                window.location.href = 'http://localhost:8080/PolyBrain/view/member/login.html';
+                throw new Error('錯誤訊息');
+            } else if (resp.ok) {
+                Swal.fire({
+                    icon: 'success',
+                    title: '收藏成功',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+                // 請求成功
+                return resp.json();
+            }
+        }) // 解析JSON響應
+        .catch(error => {
+            // 處理錯誤
+            console.error('獲取數據時出現問題:', error);
+        });
 }
 
 //取得廣告的商品資訊
@@ -297,6 +336,7 @@ async function validateMemStatus() {
             const { memNo, memName, loginStatus } = data;
             $('ul#dropdown-menu').append(`
             <li><a class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/Member_Information.jsp">會員專區</a></li>
+            <li><a class="dropdown-item" href="http://localhost:8080/PolyBrain/view/item/itemTrace.html">我的收藏</a></li>
             <li><a class="dropdown-item" href="http://localhost:8080/PolyBrain/view/CartTrace/Cart.jsp">購物車</a></li>
 <li><hr class="dropdown-divider" /></li>
 `);

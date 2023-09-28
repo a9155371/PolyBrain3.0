@@ -85,6 +85,13 @@
                 .search-right {
             margin-left: auto;
             }
+ /* 會員名稱調整 */
+ #memName {
+        line-height: 2.3;  /* 调整为所需的值 */
+        text-shadow: 2px 2px 2px rgba(0,0,0,0.3);
+        color: white;
+        margin-left: 12px;
+    }         
         </style>
     </head>
 
@@ -93,7 +100,7 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container px-5">
-                <a class="navbar-brand" href="../head/Facepage.jsp">
+                <a class="navbar-brand" href="http://localhost:8080/PolyBrain/view/bid/BidOnHomePage.html">
                     <img src="../logo/PolyBrain_Logo.png" style="width: 110px; height: auto; margin-bottom: 5px;"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -139,7 +146,6 @@
                                 <button class="btn btn-outline-dark" type="submit">
                                     <i class="bi-cart-fill me-1"></i>
                                     購物車
-                                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                                 </button>
                             </form>
                         </li>

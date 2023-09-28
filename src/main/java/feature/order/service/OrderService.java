@@ -2,21 +2,17 @@ package feature.order.service;
 
 import feature.bid.dao.BidOrderDao;
 import feature.bid.dao.BidOrderDaoImpl;
-import feature.bid.service.BiddingService;
 import feature.bid.vo.BidOrderDetailVo;
 import feature.bid.vo.BidOrderVo;
 import feature.cart.service.CartTraceService;
 import feature.cart.vo.CartItemImgDTO;
 import feature.item.service.ItemServiceImpl;
 import feature.item.vo.Item;
-import feature.mem.dao.MemDaoImpl;
-import feature.order.dao.ItemOrderDAO;
 import feature.order.dao.impl.ItemOrderDAOImpl;
 import feature.order.vo.ItemOrderDetailVO;
 import feature.order.vo.ItemOrderVO;
 import feature.order.vo.OrderDetailDTO;
 
-import javax.servlet.jsp.tagext.TryCatchFinally;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -139,7 +135,7 @@ public class OrderService {
             orderDetailDTO.setItemOrderVO(itemOrderVO);
             orderDetailDTO.setItemSales(itemOrderDetailVOList.get(i).getItemSales());
             orderDetailDTO.setItemPrice(itemList.get(i).getItemPrice());
-            orderDetailDTO.setItemImg(itemList.get(i).getItemImg().get(0).getItemImg());
+//            orderDetailDTO.setItemImg(itemList.get(i).getItemImg().get(0).getItemImg());
             orderDetailDTO.setItemName(itemList.get(i).getItemName());
             orderDetailDTOList.add(orderDetailDTO);
         }
@@ -153,6 +149,12 @@ public class OrderService {
     public BidOrderVo getBidOneOrder(Integer orderNo) {
         bidOrderDao = new BidOrderDaoImpl();
         return bidOrderDao.selectById(orderNo);
+    }
+    public List<BidOrderDetailVo> getBidAllOrder(){
+        return dao.selectBidOrder();
+    }
+    public List<BidOrderDetailVo> getBidOrderByMem(Integer memNo){
+        return dao.findBidOrderDetailsByMemNo(memNo);
     }
 
 

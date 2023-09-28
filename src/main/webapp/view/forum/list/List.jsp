@@ -103,11 +103,7 @@
             		});
             	});
             </script>
-            <style type="text/css">
-            body {
-            	margin: 1rem 12rem 2rem 12rem;
-            }
-            </style>
+          
 
 </head>
 <body>

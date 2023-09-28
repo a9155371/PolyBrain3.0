@@ -26,6 +26,10 @@
 		<mapping class="feature.item.vo.Item" />
 		<mapping class="feature.item.vo.ItemClass" />
 		<mapping class="feature.item.vo.ItemImg" />
+		<mapping class="feature.order.vo.ItemOrderVO" />
+		<mapping class="feature.order.vo.ItemOrderDetailVO" />
+		<mapping class="feature.cart.vo.CartTraceVO" />
+
 
 	</session-factory>
 </hibernate-configuration>

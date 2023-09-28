@@ -38,7 +38,7 @@
         <header>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container px-5">
-                    <a class="navbar-brand" href="http://localhost:8080/PolyBrain/view/bid/BidOnHomePage.jsp" style="margin-left: -50px;">
+                    <a class="navbar-brand" href="http://localhost:8080/PolyBrain/view/bid/BidOnHomePage.html" style="margin-left: -50px;">
                         <img src="../logo/PolyBrain_Logo.png" style="width: 110px; height: auto; margin-bottom: 5px;"></a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -189,7 +189,7 @@
         <footer class="bg-dark">
             <div id="biddingFooter" class="container panel inputArea form-check form-switch">
                     <!-- <input type="text" id="bidder" class="textField" style="height: 38px;" placeholder="bidder"> -->
-                    <input type="range" id="biddingRange" style="width:40%; height: 14px; margin-left: 20px;" min="" max="" value="" step="" oninput="updateBiddingValue();">
+                    <input type="range" id="biddingRange" style="width:40%; height: 12px; margin-left: 20px;" min="" max="" value="" step="" oninput="updateBiddingValue();">
                     <button type="submit" id="bidding" class="btn_bidding btn btn-primary" style="float: right; width:160px; border: none;" onclick="bidding();">出價＄--</button>
                 </div>
         </footer>
@@ -210,11 +210,11 @@
             $('ul.dropdown-menu').append(`
                         <li><a class="dropdown-item" href="#!">會員專區</a></li>
                         <li><a class="dropdown-item" href="#!">購物車</a></li>
-                        <li><hr class="dropdown-divider" /></li>
+                        <li><hr class="dropdown-divider"/></li>
             `);
             if(loginStatus){
                 $('span#memName').text(memName);
-                $('ul.dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/logout.html">登出</a></li>');
+                $('ul.dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/logout.jsp">登出</a></li>');
                 $(`<span id="bidder" style="height: 38px;"><i class="fas fa-user fa-fw"></i>` + memName + '</span>').insertBefore('input#biddingRange');
                 $('button#bidding').prop('disabled', false);
                 let memDetail = [memNo, memName];
@@ -222,7 +222,7 @@
             }else{
                 $('button#bidding').prop('disabled', true);
                 $('button#bidding').css('background-color', 'gray');
-                $('ul.dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/logout.html">登出</a></li>');
+                $('ul.dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/login.html">登入</a></li>');
             }
     });
     return response;

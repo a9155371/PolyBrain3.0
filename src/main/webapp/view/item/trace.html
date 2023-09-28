@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>PolyBrain 商品列表</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/itemclinent.css" rel="stylesheet" />
+    <!--輪撥套件用-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <script src="./js/jquery-3.7.0.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <style>
+        /* 會員名稱調整 */
+        #memName {
+            line-height: 2.3;
+            /* 调整为所需的值 */
+            text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+            color: white;
+            margin-left: 12px;
+        }
+
+        /* 輪撥圖用*/
+        .owl-theme .owl-nav.disabled+.owl-dots {
+            margin-top: 0px;
+        }
+
+        .owl-carousel {
+            display: flex;
+            justify-content: center;
+            /* 水平居中 */
+            align-items: center;
+            /* 垂直居中 */
+            overflow: hidden;
+            /* 隐藏溢出部分 */
+        }
+
+        .owl-nav {
+            position: absolute;
+            top: 50%;
+            /* 垂直居中 */
+            transform: translateY(-50%);
+            width: 100%;
+            text-align: center;
+        }
+
+        .owl-prev,
+        .owl-next {
+            background-color: #333;
+            color: #fff;
+            padding: 200px 0px;
+            border: none;
+            cursor: pointer;
+            font-size: 100px;
+        }
+
+        .owl-prev {
+            float: left;
+        }
+
+        .owl-next {
+            float: right;
+        }
+
+        /* 以下是可选的自定义样式，根据需要进行调整 */
+        .owl-carousel .owl-stage {
+            display: flex;
+            align-items: center;
+            /* 垂直居中 Carousel 内部的内容 */
+        }
+
+        .owl-carousel .owl-item {
+            text-align: center;
+            /* 使 Carousel 内部内容水平居中 */
+            /* 可能需要其他样式 */
+        }
+
+        /* 调整图片容器的position属性，以便其子元素（包括Sale标签）可以使用z-index */
+        .image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 100%;
+            overflow: hidden;
+        }
+
+        .image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            /* 图像宽度占满容器 */
+            height: 100%;
+            /* 高度占满容器 */
+            object-fit: contain;
+            /* 保持原始比例并填充容器 */
+        }
+
+        /* 为Sale标签添加样式 */
+        .badge.bg-dark.text-white.position-absolute , .bg-danger{
+            top: 0.5rem;
+            right: 0.5rem;
+            z-index: 1;
+            /* 将z-index设置为较高的值，使其显示在图片上层 */
+        }
+
+        .badge {
+            --bs-badge-font-size: 0.85em;
+        }
+
+        /* 禁止加入購物車的樣式 */
+        .disabled-button {
+            color: #ccc;
+            /* 禁用时的文本颜色 */
+            background-color: #f2f2f2;
+            /* 禁用时的背景颜色 */
+            cursor: not-allowed;
+            /* 鼠标样式为禁止符号 */
+        }
+
+        /* 以下是頁碼的CSS */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5em;
+        }
+
+        .pagination li {
+            list-style: none;
+            margin: 0 5px;
+        }
+
+        .pagination a {
+            text-decoration: none;
+            color: #333;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .pagination a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .pagination .active a {
+            background-color: #2875ed;
+            color: white;
+        }
+
+        /* 以上是頁碼的CSS */
+
+        @media (min-width: 992px) {
+            .col-md-12 {
+                width: 100%;
+            }
+        }
+
+        @media (min-width: 992px) {
+
+            .col-md-1,
+            .col-md-2,
+            .col-md-3,
+            .col-md-4,
+            .col-md-5,
+            .col-md-6,
+            .col-md-7,
+            .col-md-8,
+            .col-md-9,
+            .col-md-10,
+            .col-md-11,
+            .col-md-12 {
+                float: left;
+            }
+        }
+
+        .col-xs-1,
+        .col-sm-1,
+        .col-md-1,
+        .col-lg-1,
+        .col-xs-2,
+        .col-sm-2,
+        .col-md-2,
+        .col-lg-2,
+        .col-xs-3,
+        .col-sm-3,
+        .col-md-3,
+        .col-lg-3,
+        .col-xs-4,
+        .col-sm-4,
+        .col-md-4,
+        .col-lg-4,
+        .col-xs-5,
+        .col-sm-5,
+        .col-md-5,
+        .col-lg-5,
+        .col-xs-6,
+        .col-sm-6,
+        .col-md-6,
+        .col-lg-6,
+        .col-xs-7,
+        .col-sm-7,
+        .col-md-7,
+        .col-lg-7,
+        .col-xs-8,
+        .col-sm-8,
+        .col-md-8,
+        .col-lg-8,
+        .col-xs-9,
+        .col-sm-9,
+        .col-md-9,
+        .col-lg-9,
+        .col-xs-10,
+        .col-sm-10,
+        .col-md-10,
+        .col-lg-10,
+        .col-xs-11,
+        .col-sm-11,
+        .col-md-11,
+        .col-lg-11,
+        .col-xs-12,
+        .col-sm-12,
+        .col-md-12,
+        .col-lg-12 {
+            position: relative;
+            min-height: 1px;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .filter-container {
+            background-color: #ccc;
+            /* 铁灰色背景颜色 */
+            border: 5px solid white;
+            /* 5px的白线边框 */
+            padding: 20px;
+            /* 可根据需要调整内边距 */
+        }
+
+        .btn-default {
+            color: #333;
+            background-color: #fff;
+            border-color: #ccc;
+        }
+
+        /* 以下是摺疊搜尋框的CSS */
+        .search-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* 隐藏 <details> 默认的标签样式 */
+        details {
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* 鼠标悬停时更改 <summary> 的样式 */
+        summary:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* 调整 <summary> 标签的样式 */
+        summary {
+            list-style: none;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* 隐藏默认的小箭头图标 */
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        /* 定义展开内容的样式 */
+        .search-content {
+            display: none;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            max-height: 0;
+        }
+
+        /* 当 <details> 打开时，显示展开内容 */
+        details[open] .search-content {
+            max-height: 500px;
+            /* 适当的最大高度 */
+            display: block;
+        }
+
+        /* 添加过渡效果 */
+        .collapse-transition {
+            transition: height 0.35s ease-in-out;
+        }
+
+        #productSearch div.col-md-12 {
+            display: none;
+            /* 初始状态折叠 */
+        }
+
+        /* 以上設摺疊搜尋框的CSS */
+    </style>
+</head>
+
+<body class="d-flex flex-column h-100">
+    <main class="flex-shrink-0">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container px-5">
+                <a class="navbar-brand" href="index.html">
+                    <img src="../logo/PolyBrain_Logo.png" style="width: 110px; height: auto; margin-bottom: 5px;"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation"><span
+                        class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 nav-list"> 添加 nav-list 類別 -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="buyitem" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">商城</a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                                <li><a class="dropdown-item" href="../item/search.html">商品資訊</a></li>
+                                <li><a class="dropdown-item" href="../order/memberOrder.html">商城訂單查詢</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="buybid" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">競標</a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                                <li><a class="dropdown-item" href="../bid/BidOnHomePage.html">熱門競標</a></li>
+                                <li><a class="dropdown-item" href="../order/bidOrderFront.html">競標訂單查詢</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="mybooking" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">預約場地</a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                                <li><a class="dropdown-item" href="../book/Calendar.html">現在預約</a></li>
+                                <li><a class="dropdown-item" href="../book/BookingCheck.html">預約場地查詢</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="discuss" href="../forum/mainpage/index.jsp" role="button">討論區</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="memberdistrict" href="../member/Member_Information.jsp"
+                                role="button">會員中心</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="../head/question.html">常見問題</a></li>
+                        <li>
+                            <form method="post" action="http://localhost:8080/PolyBrain/loginRequired/CartServlet">
+                                <input type="hidden" name="action" value="getAll" id="actionInput">
+                                <button type="submit" class="btn text-white">
+                                    <i class="bi-cart-fill me-1" style="color: #ffffff"></i>
+                                    購物車
+                                </button>
+                            </form>
+                        </li>
+                        <span id="memName" style="margin-left:12px;"></span>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                            <ul id="dropdown-menu" class="dropdown-menu dropdown-menu-end"
+                                aria-labelledby="navbarDropdown">
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Header-->
+        <header class="bg-dark">
+            <div class="owl-carousel owl-theme">
+                <div>
+                    <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=1055">
+                        <img src="img/15.png">
+                    </a>
+                </div>
+                <div><a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=1056">
+                        <img src="img/16.png">
+                    </a>
+                </div>
+                <div><a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=1053">
+                        <img src="img/3.png">
+                    </a>
+                </div>
+                <div><a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=1052">
+                        <img src="img/4.png">
+                    </a>
+                </div>
+                <div><a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=1054">
+                        <img src="img/10.png">
+                    </a>
+                </div>
+                <div>
+                    <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=1058">
+                        <img src="img/11.png">
+                    </a>
+                </div>
+                <div><a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=1057">
+                        <img src="img/12.png">
+                    </a>
+                </div>
+            </div>
+            <div id="customDots"></div>
+            </div>
+        </header>
+        <!-- Section-->
+        <Section>
+            <details id="productSearch">
+                <summary><span style="margin: 0px 10px 0;font-size: 24px;color: gray;font-family: arial;">≡</span>展開商品搜尋
+                </summary>
+                <i id="icon-filter" class="fa fa-angle-down attr_icon"
+                    style="font-weight: 900;position: absolute;right: 7px;top: 6px;font-size: 21px;color:rgba(0,0,0,0.25);"></i>
+                <div class="col-md-12" style="padding-bottom: 30px;">
+                    <h4 class="tc" style="padding: 20px 60px 20px;"><i class="fa fa-filter"></i>商品篩選</h4>
+                    <div class="h10"></div>
+                    <div class="form-name">
+                        <div class="col-md-2 col-sm-2 col-xs-4 tr b" style="padding-left: 110px;padding-top: 7.5px;">
+                            搜尋遊戲：
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-xs-10" style="padding-top: 5px;">
+                            <input type="text" id="myInput" onblur="NameCilck(this.value)">
+                        </div>
+                    </div>
+                    <div class="h10"></div>
+                    <div class="form-Price">
+                        <div class="col-md-2 col-sm-2 col-xs-4 tr b" style="padding-left: 110px;padding-top: 15px;">
+                            建議售價：
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-xs-10 my-2">
+                            <a onclick="PriceClick(0,0);PriceActive(0)" class="btn btn-default active">全部</a>
+                            <a onclick="PriceClick(1, 300);PriceActive(1)" class="btn btn-default">1-300</a>
+                            <a onclick="PriceClick(301, 500);PriceActive(2)" class="btn btn-default">301-500</a>
+                            <a onclick="PriceClick(501, 1000);PriceActive(3)" class="btn btn-default">501-1000</a>
+                            <a onclick="PriceClick(1001, 2000);PriceActive(4)" class="btn btn-default">1001-2000</a>
+                            <a onclick="PriceClick(2001, 3000);PriceActive(5)" class="btn btn-default">2001-3000</a>
+                            <a onclick="PriceClick(3001,99999);PriceActive(6)" class="btn btn-default">3000以上</a>
+                            <!-- 其他售價范围按钮 -->
+                        </div>
+                    </div>
+                    <div class="h10"></div>
+                    <div class="form-type">
+                        <div class="col-md-2 col-sm-2 col-xs-4 tr b" style="padding-left: 110px;padding-top: 15px;">
+                            遊戲類型：
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-xs-10 my-2">
+                            <a onclick="TypeClick(0)" class="btn btn-default active">全部</a>
+                            <a onclick="TypeClick(1)" class="btn btn-default">策略遊戲</a>
+                            <a onclick="TypeClick(2)" class="btn btn-default">紙牌遊戲</a>
+                            <a onclick="TypeClick(3)" class="btn btn-default">兒童遊戲</a>
+                            <a onclick="TypeClick(4)" class="btn btn-default">家庭遊戲</a>
+                            <a onclick="TypeClick(5)" class="btn btn-default">陣營遊戲</a>
+                            <a onclick="TypeClick(6)" class="btn btn-default">派對遊戲</a>
+                            <!-- 其他遊戲類型按钮 -->
+                        </div>
+                    </div>
+                    <div class="h10"></div>
+                    <div class="form-player">
+                        <div class="col-md-2 col-sm-2 col-xs-4 tr b" style="padding-left: 110px;padding-top: 15px;">
+                            玩家人數：
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-xs-10 my-2">
+                            <a onclick="PlayerClick(0)" class="btn btn-default active">全部</a>
+                            <a onclick="PlayerClick(1)" class="btn btn-default">1人</a>
+                            <a onclick="PlayerClick(2)" class="btn btn-default">2人</a>
+                            <a onclick="PlayerClick(3)" class="btn btn-default">3人</a>
+                            <a onclick="PlayerClick(4)" class="btn btn-default">4人</a>
+                            <a onclick="PlayerClick(5)" class="btn btn-default">5人</a>
+                            <a onclick="PlayerClick(6)" class="btn btn-default">6人</a>
+                            <a onclick="PlayerClick(7)" class="btn btn-default">7人</a>
+                            <a onclick="PlayerClick(8)" class="btn btn-default">8人</a>
+                            <a onclick="PlayerClick(9)" class="btn btn-default">9人</a>
+                            <a onclick="PlayerClick(10)" class="btn btn-default">10人</a>
+                            <a onclick="PlayerClick(11)" class="btn btn-default">10人以上</a>
+                            <!-- 其他玩家人數按钮 -->
+                        </div>
+                    </div>
+                    <div class="h10"></div>
+                    <div class="form-time">
+                        <div class="col-md-2 col-sm-2 col-xs-4 tr b" style="padding-left: 110px;padding-top: 15px;">
+                            所需時間：
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-xs-10 my-2">
+                            <a onclick="TimeClick(0);TimeActive(0)" class="btn btn-default active">全部</a>
+                            <a onclick="TimeClick(10);TimeActive(1)" class="btn btn-default">10分鐘內</a>
+                            <a onclick="TimeClick(30);TimeActive(2)" class="btn btn-default">30分鐘</a>
+                            <a onclick="TimeClick(45);TimeActive(3)" class="btn btn-default">45分鐘</a>
+                            <a onclick="TimeClick(60);TimeActive(4)" class="btn btn-default">60分鐘</a>
+                            <a onclick="TimeClick(90);TimeActive(5)" class="btn btn-default">90分鐘</a>
+                            <a onclick="TimeClick(120);TimeActive(6)" class="btn btn-default">120分鐘</a>
+                            <a onclick="TimeClick(121);TimeActive(7)" class="btn btn-default">121分鐘以上</a>
+                            <!-- 其他所需時間按钮 -->
+                        </div>
+                    </div>
+                    <div class="form-order">
+                        <div class="col-md-2 col-sm-2 col-xs-4 tr b" style="padding-left: 110px;padding-top: 15px;">
+                            排序方式：
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-xs-10 my-2">
+                            <a onclick="OrderBy(0)" class="btn btn-default active">預設</a>
+                            <a onclick="OrderBy(1)" class="btn btn-default">最新上架</a>
+                            <a onclick="OrderBy(2)" class="btn btn-default">最熱銷</a>
+                        </div>
+                    </div>
+
+                </div>
+            </details>
+        </Section>
+        <!-- article-->
+        <article class="py-5">
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"
+                    id="itemList">
+                </div>
+            </div>
+            </div>
+        </article>
+        <!-- Footer-->
+        <div class="py-3 text-center ">
+            <ul class="pagination" id="pageList">
+                <!-- 生成頁碼插入其中 -->
+
+            </ul>
+        </div>
+        <footer class="bg-dark py-4 mt-auto">
+            <div class="container px-5">
+                <div class="row align-items-center justify-content-between flex-column flex-sm-row">
+                    <div class="col-auto">
+                        <div class="small m-0 text-white">Copyright © 2023 PolyBrain. All rights reserved. </div>
+                    </div>
+                    <div class="col-auto">
+                        <a class="link-light small" href="Privacy.html">隱私權協定</a>
+                        <span class="text-white mx-1">&middot;</span>
+                        <a class="link-light small" href="Forus.html">關於我們</a>
+                        <span class="text-white mx-1">&middot;</span>
+                        <a href="mailto:ps66391@gmail.com?subject=聯絡我們的請求&body=請在此寫下您的問題。" title="用 Email 轉寄"
+                            onclick="return confirm('您確定要前往email寄信?');">
+                            <img src="img/信封.jpg">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <script src="./js/trace.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+</body>
+
+</html>

@@ -86,6 +86,7 @@ function getProduct(move, numberpage, set) {
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                             <div class="text-center">
                                 <button onclick="addCart(${item.itemNo})" class="btn btn-outline-dark mt-auto">加入購物車</button>
+                                <button onclick="getItem(${item.itemNo})" class="btn btn-outline-dark mt-auto">收藏</button>
                             </div>
                         </div>
                     </div>
@@ -160,63 +161,62 @@ function addCart(itemNo) {
         });
 }
 
-//獲取需收藏的商品資訊
-// function getItem(itemNo) {
-//     console.log("收藏前收集資料");
-//     console.log(itemNo);
-//     Trace = {};
-//     // 發送請求獲取商品數據
-//     fetch("http://localhost:8080/PolyBrain/general/selectServlet?value=selectID&itemID=" + itemNo, {
-//         method: 'GET',
-//         headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-//     })
-//         .then(response => response.json()) // 解析JSON響應
-//         .then(data => {
-//             Trace.itemNo = data.itemNo;
-//             Trace.itemImg = data.itemImg[0].itemImg;
-//             Trace.itemName = data.itemName;
-//             Trace.itemPrice = data.itemPrice;
-//             console.log(Trace);
-//             addTrace(Trace)
-//         })
-//         .catch(error => {
-//             // 處理錯誤
-//             console.error('獲取數據時出現問題:', error);
-//         });
-// }
-// //收到商品數據丟入資料庫收藏
-// function addTrace(Trace) {
-//     console.log("開始將資料加入收藏");
-//     console.log(Trace);
-//     // 發送請求獲取商品數據
-//     fetch("http://localhost:8080/PolyBrain/loginRequired/Trace", {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-//         body: JSON.stringify(Trace),
-//     })
-//         .then(resp => {
-//             console.log(resp.status);
-//             if (resp.status == 401) {
-//                 alert('帳號未登入，跳轉至登入頁面');
-//                 window.location.href = 'http://localhost:8080/PolyBrain/view/member/login.html';
-//                 throw new Error('錯誤訊息');
-//             } else if (resp.ok) {
-//                 // 請求成功
-//                 return resp.json();
-//             }
-//         }) // 解析JSON響應
-//         .then(data => {
-//             Trace.itemNo = data.itemNo;
-//             Trace.itemImg = data.itemImg[0].itemImg;
-//             Trace.itemName = data.itemName;
-//             Trace.itemPrice = data.itemPrice;
-//             console.log(Trace);
-//         })
-//         .catch(error => {
-//             // 處理錯誤
-//             console.error('獲取數據時出現問題:', error);
-//         });
-// }
+// 獲取需收藏的商品資訊
+function getItem(itemNo) {
+    console.log("收藏前收集資料");
+    console.log(itemNo);
+    Trace = {};
+    // 發送請求獲取商品數據
+    fetch("http://localhost:8080/PolyBrain/general/selectServlet?value=selectID&itemID=" + itemNo, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+    })
+        .then(response => response.json()) // 解析JSON響應
+        .then(data => {
+            Trace.itemNo = data.itemNo;
+            Trace.itemImg = data.itemImg[0].itemImg;
+            Trace.itemName = data.itemName;
+            Trace.itemPrice = data.itemPrice;
+            console.log(Trace);
+            addTrace(Trace)
+        })
+        .catch(error => {
+            // 處理錯誤
+            console.error('獲取數據時出現問題:', error);
+        });
+}
+//收到商品數據丟入資料庫收藏
+function addTrace(Trace) {
+    console.log("開始將資料加入收藏");
+    console.log(Trace);
+    // 發送請求獲取商品數據
+    fetch("http://localhost:8080/PolyBrain/loginRequired/Trace", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        body: JSON.stringify(Trace),
+    })
+        .then(resp => {
+            console.log(resp.status);
+            if (resp.status == 401) {
+                alert('帳號未登入，跳轉至登入頁面');
+                window.location.href = 'http://localhost:8080/PolyBrain/view/member/login.html';
+                throw new Error('錯誤訊息');
+            } else if (resp.ok) {
+                Swal.fire({
+                    icon: 'success',
+                    title: '收藏成功',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+                // 請求成功
+                return resp.json();
+            }
+        }) // 解析JSON響應
+        .catch(error => {
+            // 處理錯誤
+            console.error('獲取數據時出現問題:', error);
+        });
+}
 
 
 // 生成頁碼的函數
@@ -487,7 +487,6 @@ $(document).ready(function () {
         loop: true, // 循環播放
         autoplay: true,
         autoplayTimeout: 5000,
-        autoplayHoverPause: true,
         smartSpeed: 500,
         margin: 10, // 外距 10px
         nav: true,
@@ -524,6 +523,7 @@ async function validateMemStatus() {
             const { memNo, memName, loginStatus } = data;
             $('ul#dropdown-menu').append(`
             <li><a class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/Member_Information.jsp">會員專區</a></li>
+            <li><a class="dropdown-item" href="http://localhost:8080/PolyBrain/view/item/itemTrace.html">我的收藏</a></li>
             <li><a class="dropdown-item" href="http://localhost:8080/PolyBrain/view/CartTrace/Cart.jsp">購物車</a></li>
 <li><hr class="dropdown-divider" /></li>
 `);

@@ -7,6 +7,7 @@ import feature.order.vo.ItemOrderDetailVO;
 import org.hibernate.Session;
 import feature.order.dao.ItemOrderDAO;
 import feature.order.vo.ItemOrderVO;
+import org.hibernate.query.Query;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -82,18 +83,19 @@ public class ItemOrderDAOImpl implements ItemOrderDAO {
         return getSession().createQuery(hql, ItemOrderDetailVO.class).getResultList();
     }
 
-    public BidOrderDetailVo selectByBidId(Integer bidOrderNo) {
-        final String hql = "FROM BidOrderDetailVo WHERE BID_ORDER_NO =" + bidOrderNo;
-        return getSession().createQuery(hql, BidOrderDetailVo.class).uniqueResult();
+    public List<BidOrderDetailVo> findBidOrderDetailsByMemNo(Integer memNo) {
+        String hql = "FROM BidOrderDetailVo bod WHERE bod.bidOrderVo.memNo = :memNo";
+        Query<BidOrderDetailVo> query = getSession().createQuery(hql, BidOrderDetailVo.class);
+        return query.setParameter("memNo", memNo).getResultList();
     }
 
     public Integer insertBidOrderDetail(BidOrderDetailVo bidOrderDetailVo) {
         getSession().persist(bidOrderDetailVo);
         return 1 ;
     }
-    public BidOrderVo selectBidOrder(Integer memNo) {
-        final String hql = "FROM BidOrderDetailVo WHERE MEM_NO =" + memNo ;
-        return getSession().createQuery(hql, BidOrderVo.class).uniqueResult();
+    public List<BidOrderDetailVo> selectBidOrder() {
+        final String hql = "FROM BidOrderDetailVo ORDER BY bod_no";
+        return getSession().createQuery(hql, BidOrderDetailVo.class).getResultList();
     }
 
 

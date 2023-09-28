@@ -33,7 +33,7 @@ function fetchAndBuildTable() {
 
 
 function sendToController() {
-    fetch("http://localhost:8080/PolyBrain/findAllOrder", {
+    fetch("/PolyBrain/loginRequired/bidSearchMemOrder", {
         method: 'POST',
         headers: {
             "Content-Type": "application/json"
@@ -52,8 +52,8 @@ function sendToController() {
 //動態填表格
 function buildTable() {
 
-    table = $("#memberOrder").DataTable({
-        id: "memberOrder",
+    table = $("#memberBidOrder").DataTable({
+        id: "memberBidOrder",
         "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "全部"]],
         "processing": true,
         "destroy": true,
@@ -71,13 +71,7 @@ function buildTable() {
         data: newData,
         columns: [
             {
-                data: "orderNo",
-            },
-            {
-                data: "tranTime",
-            },
-            {
-                data: "orderState",
+                data: "bidOrderNo",
             },
             {
                 data: "receiverName",
@@ -89,15 +83,15 @@ function buildTable() {
                 data: "receiverPhone",
             },
             {
-                data: "orderTotal",
-            },
-            {
-                data: null, title: "詳情",
+                data: "receiverMethod",
                 render: function (data, type, row) {
-                    return '<button type="button" class="btn btn-primary orderDetailBtn">訂單明細</button>'
+                    // 根据receiverMethod的值返回相应的文本
+                    return data === 0 ? "郵寄" : "宅配";
                 }
             },
-
+            {
+                data: "bidOrderVo.finalPrice",
+            },
         ],
         language: {      // 語言設定
             "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json"
@@ -111,42 +105,49 @@ function buildTable() {
 
     });
 
-    $(document).on('click', '.orderDetailBtn', function () {
-        fetch("http://localhost:8080/PolyBrain/findAllOrderDetail", {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
 
-                let customHtml = '<div>';
-                data.forEach(item => {
-                    customHtml += `<div class="custom-item">`;
-                    customHtml += `<p><strong>商品名稱：</strong><strong>${item.itemName}</strong></p>`;
-                    customHtml += `<span class="item-label">商品價格：</span><span class="item-value">${item.itemPrice}</span>`;
-                    customHtml += `&nbsp;`
-                    customHtml += `<span class="item-label">數量：</span><span class="item-value">${item.itemSales}</span>`;
-                    customHtml += `&nbsp;`
-                    customHtml += `<span class="item-label">合計：</span><span class="item-value">${item.itemPrice * item.itemSales}</span>`;
-                    customHtml += `&nbsp;`
-                    customHtml += `<span class="item-label">訂購日期：</span><span class="item-value">${item.itemOrderVO.tranTime}</span>`;
-                    customHtml += '</div>'; // 结束商品信息的<div>
-                    customHtml += `<br>`;
-                });
-                customHtml += '</div>';
 
-                // 使用 SweetAlert 弹窗显示订单详情
-                Swal.fire({
-                    title: '訂單明细',
-                    html: customHtml,
-                    customClass: {
-                        content: 'custom-swal-content' // 添加自定义CSS类
-                    }
-                });
-            });
-    });
+
+
+
+
+
+    // $(document).on('click', '.orderDetailBtn', function () {
+    //     fetch("http://localhost:8080/PolyBrain/findAllOrderDetail", {
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         }
+    //     })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             console.log(data);
+
+    //             let customHtml = '<div>';
+    //             data.forEach(item => {
+    //                 customHtml += `<div class="custom-item">`;
+    //                 customHtml += `<p><strong>商品名稱：</strong><strong>${item.itemName}</strong></p>`;
+    //                 customHtml += `<span class="item-label">商品價格：</span><span class="item-value">${item.itemPrice}</span>`;
+    //                 customHtml += `&nbsp;`
+    //                 customHtml += `<span class="item-label">數量：</span><span class="item-value">${item.itemSales}</span>`;
+    //                 customHtml += `&nbsp;`
+    //                 customHtml += `<span class="item-label">合計：</span><span class="item-value">${item.itemPrice * item.itemSales}</span>`;
+    //                 customHtml += `&nbsp;`
+    //                 customHtml += `<span class="item-label">訂購日期：</span><span class="item-value">${item.itemOrderVO.tranTime}</span>`;
+    //                 customHtml += '</div>'; // 结束商品信息的<div>
+    //                 customHtml += `<br>`;
+    //             });
+    //             customHtml += '</div>';
+
+    //             // 使用 SweetAlert 弹窗显示订单详情
+    //             Swal.fire({
+    //                 title: '訂單明细',
+    //                 html: customHtml,
+    //                 customClass: {
+    //                     content: 'custom-swal-content' // 添加自定义CSS类
+    //                 }
+    //             });
+    //         });
+    // });
 
 
 

@@ -148,11 +148,13 @@
                         </li>
                         <li class="nav-item"><a class="nav-link" href="../head/question.html">常見問題</a></li>
                         <li>
-                            <a href="http://localhost:8080/PolyBrain/view/CartTrace/Cart.jsp" id="submitLink"
-                                class="btn btn-outline-dark" style="color: #ffffff">
-                                <i class="bi-cart-fill me-1" style="color: #ffffff"></i>
-                                購物車
-                            </a>
+                            <form method="post" action="http://localhost:8080/PolyBrain/loginRequired/CartServlet">
+                                <input type="hidden" name="action" value="getAll" id="actionInput">
+                                <button type="submit" class="btn text-white">
+                                    <i class="bi-cart-fill me-1" style="color: #ffffff"></i>
+                                    購物車
+                                </button>
+                            </form>
                         </li>
                         <span id="memName" style="margin-left:12px;"></span>
                         <li class="nav-item dropdown">

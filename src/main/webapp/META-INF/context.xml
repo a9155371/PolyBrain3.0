@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
 
-	<Resource name="jdbc/polybrain_mem" type="javax.sql.DataSource"
+	<Resource name="jdbc/polybrain" type="javax.sql.DataSource"
 		driverClassName="com.mysql.cj.jdbc.Driver"
-		jdbcUrl="jdbc:mysql://localhost:3306/polybrain_mem"
+		jdbcUrl="jdbc:mysql://localhost:3306/polybrain"
 		username="root"
 		password="06494784"
 		factory="com.zaxxer.hikari.HikariJNDIFactory"

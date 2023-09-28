@@ -327,16 +327,14 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container px-5">
-                <a class="navbar-brand" href="index.html">
-                    <img src="../logo/PolyBrain_Logo.png" style="width: 110px; height: auto; margin-bottom: 5px;"></a>
+                <a class="navbar-brand" href="http://localhost:8080/PolyBrain/view/bid/BidOnHomePage.jsp" style="margin-left: -50px;">
+                    <img src="../logo/PolyBrain_Logo.png" style="width: 110px; height: auto; margin-bottom: 5px; "></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation"><span
                         class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 nav-list"> 添加 nav-list 類別 -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="buyitem" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">商城</a>
@@ -370,11 +368,13 @@
                         </li>
                         <li class="nav-item"><a class="nav-link" href="../head/question.html">常見問題</a></li>
                         <li>
-                            <a href="http://localhost:8080/PolyBrain/view/CartTrace/Cart.jsp" id="submitLink"
-                                class="btn btn-outline-dark" style="color: #ffffff">
-                                <i class="bi-cart-fill me-1" style="color: #ffffff"></i>
-                                購物車
-                            </a>
+                            <form method="post" action="http://localhost:8080/PolyBrain/loginRequired/CartServlet">
+                                <input type="hidden" name="action" value="getAll" id="actionInput">
+                                <button type="submit" class="btn text-white">
+                                    <i class="bi-cart-fill me-1" style="color: #ffffff"></i>
+                                    購物車
+                                </button>
+                            </form>
                         </li>
                         <span id="memName" style="margin-left:12px;"></span>
                         <li class="nav-item dropdown">

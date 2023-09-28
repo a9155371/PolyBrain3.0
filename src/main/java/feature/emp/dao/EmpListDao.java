@@ -14,13 +14,13 @@ public class EmpListDao implements EmpListDaoImpl{
     String driver = "com.mysql.cj.jdbc.Driver";
     String url = "jdbc:mysql://localhost:3306/polybrain?serverTimezone=Asia/Taipei";
     String userid = "root";
-    String passwd = "asd347asd";
+    String passwd = "06494784";
 
     private static DataSource ds = null;
     static {
         try {
             Context ctx = new InitialContext();
-            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB3");
+            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/polybrain");
         } catch (NamingException e) {
             e.printStackTrace();
         }
